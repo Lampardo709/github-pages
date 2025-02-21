@@ -1,4 +1,77 @@
-<header>
+<header>import React, { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ShoppingCart } from "lucide-react";
+
+const products = [
+  { id: 1, name: "Vêtements", price: 50, image: "https://via.placeholder.com/150" },
+  { id: 2, name: "Chaussures", price: 80, image: "https://via.placeholder.com/150" },
+  { id: 3, name: "Plantes", price: 30, image: "https://via.placeholder.com/150" },
+  { id: 4, name: "Mèches", price: 25, image: "https://via.placeholder.com/150" },
+  { id: 5, name: "Accessoires", price: 15, image: "https://via.placeholder.com/150" },
+  { id: 6, name: "Beauté", price: 40, image: "https://via.placeholder.com/150" }
+];
+
+export default function Shop() {
+  const [cart, setCart] = useState([]);
+
+  const addToCart = (product) => {
+    setCart([...cart, product]);
+  };
+
+  return (
+    <div className="p-6">
+      <h1 className="text-3xl font-bold mb-4">Boutique en ligne</h1>
+      <div className="grid grid-cols-3 gap-4">
+        {products.map((product) => (
+          <Card key={product.id} className="p-4 text-center">
+            <img src={product.image} alt={product.name} className="mb-2 mx-auto" />
+            <h2 className="text-lg font-semibold">{product.name}</h2>
+            <p className="text-gray-600">${product.price}</p>
+            <Button className="mt-2" onClick={() => addToCart(product)}>
+              Ajouter au panier
+            </Button>
+          </Card>
+        ))}
+      </div>
+      <div className="mt-6 p-4 border rounded-md">
+        <h2 className="text-xl font-bold mb-2 flex items-center">
+          <ShoppingCart className="mr-2" /> Panier
+        </h2>
+        {cart.length === 0 ? (
+          <p>Votre panier est vide.</p>
+        ) : (
+          <ul>
+            {cart.map((item, index) => (
+              <li key={index} className="flex justify-between py-1">
+                {item.name} - ${item.price}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+      <div className="mt-6 p-4 border rounded-md">
+        <h2 className="text-xl font-bold mb-2">Contactez-nous</h2>
+        <form>
+          <div className="mb-2">
+            <label className="block text-sm font-medium">Nom</label>
+            <input type="text" className="w-full p-2 border rounded-md" placeholder="Votre nom" />
+          </div>
+          <div className="mb-2">
+            <label className="block text-sm font-medium">Email</label>
+            <input type="email" className="w-full p-2 border rounded-md" placeholder="Votre email" />
+          </div>
+          <div className="mb-2">
+            <label className="block text-sm font-medium">Message</label>
+            <textarea className="w-full p-2 border rounded-md" placeholder="Votre message"></textarea>
+          </div>
+          <Button type="submit" className="mt-2">Envoyer</Button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
 
 <!--
   <<< Author notes: Course header >>>
